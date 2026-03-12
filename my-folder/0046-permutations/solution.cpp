@@ -1,28 +1,26 @@
 class Solution {
-    void backtrack(vector<int>& nums,vector<int>curr,vector<vector<int>>&res,vector<bool>& used)
+    void solve(int i,vector<vector<int>>& res,vector<int>& nums)
     {
-        if(curr.size()==nums.size()){
-            res.push_back(curr);
+        if(i==nums.size()){
+            res.push_back(nums);
             return;
         }
 
-        for(int i=0;i<nums.size();i++)
+        for(int j=i;j<nums.size();j++)
         {
-            if(used[i]) continue;
+            swap(nums[i],nums[j]);
+            solve(i+1,res,nums);
+           swap(nums[i],nums[j]);
 
-            used[i] = true;
-            curr.push_back(nums[i]);
-            backtrack(nums,curr,res,used);
-            curr.pop_back();
-            used[i] = false;
         }
+
     }
 public:
     vector<vector<int>> permute(vector<int>& nums) {
-        vector<bool>used(nums.size(),false);
+        //vector<bool>used(nums.size(),false);
         vector<vector<int>>res;
-        vector<int>curr;
-        backtrack(nums,curr,res,used);
+        
+        solve(0,res,nums);
         return res;
     }
 };
